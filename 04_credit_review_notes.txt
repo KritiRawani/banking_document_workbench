@@ -1,0 +1,19 @@
+CREDIT REVIEW NOTES
+Example National Bank — Synthetic test data
+Application ID: APP-SYN-2026-001
+Applicant: Aarav Mehta (fictional)
+Review date: 23 October 2026
+
+Reviewer notes:
+- Requested loan amount: INR 1,500,000.
+- Loan purpose: Home renovation.
+- Verified annual income: INR 1,080,000 (see Income Verification Statement).
+- Application form declares annual income of INR 1,200,000.
+- Address on application: 12 Sample Road, Indore, Madhya Pradesh 452001.
+- Property valuation status is Draft — subject to site inspection.
+- No final credit decision has been made.
+
+Please identify factual mismatches, missing information, and items requiring follow-up.
+Do not infer approval or rejection from these notes.
+
+SYNTHETIC TEST DATA — NOT A REAL CUSTOMER OR BANK RECORD.

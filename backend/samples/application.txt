@@ -1,0 +1,7 @@
+SYNTHETIC ASSESSMENT DATA - NOT A REAL CUSTOMER
+Company: Example Trading Private Limited
+Application date: 2026-10-30
+Requested loan: INR 1500000
+Annual revenue: INR 2500000
+Registered address: 12 Sample Road, Example City
+Licence number: SYNTHETIC-LIC-001

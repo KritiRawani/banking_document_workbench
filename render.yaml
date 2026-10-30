@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: banking-document-workbench-api
+    runtime: node
+    plan: starter
+    autoDeployTrigger: "off"
+    buildCommand: npm ci --include=dev && npm run build -w backend
+    startCommand: npm run start -w backend
+    healthCheckPath: /api/health/db
+    envVars:
+      - key: NODE_VERSION
+        value: 24.22.1
+      - key: NODE_ENV
+        value: production
+      - key: CLIENT_ORIGIN
+        sync: false
+      - key: MYSQL_URL
+        sync: false
+      - key: AI_MODE
+        value: gemini
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-3.1-flash-lite
+      - key: UPLOAD_DIR
+        value: /var/data/uploads
+    disk:
+      name: document-uploads
+      mountPath: /var/data
+      sizeGB: 1
