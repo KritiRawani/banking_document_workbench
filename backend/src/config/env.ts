@@ -25,6 +25,7 @@ const schema = z.object({
     return url.protocol === 'mysql:' && url.pathname === '/document_workbench';
   }, 'Must be a mysql:// URL for document_workbench').optional(),
   AI_MODE: z.enum(['mock', 'gemini']).default('mock'),
+  MYSQL_SSL_CA: z.string().trim().min(1).optional(),
   GEMINI_API_KEY: z.string().trim().default(''),
   GEMINI_MODEL: z.string().trim().min(1).default('gemini-3.1-flash-lite'),
   UPLOAD_DIR: z.string().trim().min(1).refine(isAbsolute, 'Must be an absolute storage directory').optional(),

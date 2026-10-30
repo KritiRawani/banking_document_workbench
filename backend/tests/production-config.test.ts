@@ -55,3 +55,23 @@ test('production configuration errors identify fields without exposing credentia
   assert.match(execFileSync(process.execPath, ['--import', 'tsx', '--input-type=module', '-e', script],
     { cwd, env: { ...syntheticEnv, MYSQL_URL: 'mysql://synthetic:synthetic-secret@example.invalid/wrong_database' }, encoding: 'utf8' }), /Safe validation verified/);
 });
+
+test('Aiven CA enables verified pool TLS and an absent CA preserves local connection settings', () => {
+  const script = `
+    import assert from 'node:assert/strict';
+    import { pool } from './backend/src/config/db.ts';
+    try {
+      const ssl = pool.pool.config.connectionConfig.ssl;
+      if (process.env.MYSQL_SSL_CA) {
+        assert.equal(ssl.ca, process.env.MYSQL_SSL_CA.split(String.fromCharCode(92)+'n').join(String.fromCharCode(10)));
+        assert.equal(ssl.rejectUnauthorized, true);
+        assert.equal(ssl.verifyIdentity, true);
+      } else assert.equal(ssl, false);
+      console.log('Pool TLS configuration verified');
+    } finally { await pool.end(); }
+  `;
+  for (const ca of ['synthetic-ca\\ncertificate', undefined]) {
+    assert.match(execFileSync(process.execPath, ['--import', 'tsx', '--input-type=module', '-e', script],
+      { cwd, env: { ...syntheticEnv, MYSQL_SSL_CA: ca }, encoding: 'utf8' }), /Pool TLS configuration verified/);
+  }
+});

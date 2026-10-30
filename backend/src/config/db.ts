@@ -5,6 +5,7 @@ import { env } from './env.js';
 export const pool = env.MYSQL_URL
   ? mysql.createPool({
       uri: env.MYSQL_URL,
+      ...(env.MYSQL_SSL_CA ? { ssl: { ca: env.MYSQL_SSL_CA.replace(/\\n/g, '\n'), rejectUnauthorized: true, verifyIdentity: true } } : {}),
       connectionLimit: 5,
       waitForConnections: true,
       queueLimit: 10,

@@ -217,4 +217,6 @@ Production work remains: authentication and tenant isolation, rate limits, malwa
 
 ## Deployment preparation
 
-See [DEPLOYMENT.md](DEPLOYMENT.md) for Vercel frontend, Render backend and persistent uploads, Railway MySQL setup, production environment variables and exact commands. Production ignores local `.env` files and uses backend platform environment variables. No deployment has been performed.
+See [DEPLOYMENT.md](DEPLOYMENT.md) for Vercel frontend, Render Free backend with temporary `/tmp/uploads` storage, Aiven MySQL setup, production environment variables and exact commands. Production ignores local `.env` files and uses backend platform environment variables. No deployment has been performed.
+
+Render Free may lose original uploads on restart, redeploy or spin-down. Metadata, extracted text and saved analysis results remain in Aiven MySQL when its connection is configured. The backend creates the temporary upload directory automatically; local upload behavior is unchanged. See the deployment guide for `MYSQL_URL` and verified TLS via `MYSQL_SSL_CA`.
