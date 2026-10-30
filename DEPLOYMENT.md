@@ -10,9 +10,10 @@ The repository is an npm workspace with a shared root `package-lock.json`:
 - `backend/`: Express, TypeScript, mysql2 pool, PDF/TXT extraction and Gemini/rule-based analysis; output `backend/dist`.
 - `backend/database/schema.sql`: existing manual schema; never run automatically at startup.
 - `vercel.json`: static frontend build settings, from repository root.
+- `frontend/vercel.json`: frontend-root Vercel settings for the recommended dashboard configuration below.
 - `render.yaml`: backend template, from repository root; Render Free, temporary uploads, automatic deployments disabled.
 
-Use Node 24 (at least 24.13.0, required by the current dependencies). The Render template pins 24.22.1; select Node 24.x in Vercel. Keep both services' Root Directory at the repository root, not the individual workspace. This preserves access to the shared lockfile.
+Use Node 24 (at least 24.13.0, required by the current dependencies). The Render template pins 24.22.1; select Node 24.x in Vercel. Keep Render's Root Directory at the repository root. Set Vercel's Root Directory to `frontend` and allow access to files outside it for the shared npm workspace manifest and lockfile.
 
 ## 1. Aiven MySQL (when deployment is authorized)
 
@@ -89,15 +90,18 @@ Render Free services can spin down after inactivity and take time to wake up. Re
 
 ## 3. Vercel frontend
 
-Import the same repository with Root Directory at the repository root. `vercel.json` sets:
+Import the same repository with Root Directory set to `frontend`. Vercel uses `frontend/vercel.json` with paths relative to that directory:
 
 | Setting | Value |
 | --- | --- |
 | Framework | Vite |
+| Root Directory | `frontend` |
 | Install Command | `npm ci --include=dev` |
-| Build Command | `npm run build -w frontend` |
-| Output Directory | `frontend/dist` |
+| Build Command | `npm run build` |
+| Output Directory | `dist` |
 | Node version | select 24.x |
+
+Enable **Include source files outside of the Root Directory in the Build Step** for the shared root `package.json` and `package-lock.json`. The resulting output is `frontend/dist/index.html` relative to the repository, or `dist/index.html` relative to Vercel's selected root. Do not set `frontend/dist` as the output when Root Directory is already `frontend`. The existing repository-root `vercel.json` remains valid only for the alternative repository-root setup; do not mix its paths with frontend-root settings.
 
 Set the single public frontend variable before building:
 
